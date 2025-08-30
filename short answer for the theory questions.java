@@ -501,4 +501,9 @@ Adapter
 Convert one interface into another expected by clients; integration scenarios.
 
 Facade
+
 Simplified interface to complex subsystem; reduces coupling.
+
+
+
+  This is the way to impress
