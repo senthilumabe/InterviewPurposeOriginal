@@ -1,0 +1,187 @@
+🔹 General Design Pattern Questions
+======================================
+Q1. What are design patterns, and why are they important?
+A1. Design patterns are proven solutions to common software design problems. They improve code reusability, flexibility, maintainability, and help teams communicate using a shared vocabulary.
+
+#######################################################################################################################
+Q2. How do design patterns differ from frameworks and libraries?
+A2.
+
+Design Pattern → Conceptual solution (not tied to code).
+
+Framework → Provides structure and reusable components.
+
+Library → Provides functions/utilities that you call directly.
+Patterns guide how you use frameworks/libraries.
+
+#######################################################################################################################
+Q3. Can you explain the difference between Creational, Structural, and Behavioral patterns?
+============================================================================================
+A3.
+
+Creational → Object creation (e.g., Singleton, Factory, Builder).
+
+Structural → Object composition & relationships (e.g., Adapter, Composite, Decorator).
+
+Behavioral → Communication & responsibilities (e.g., Observer, Strategy, Chain of Responsibility).
+
+🔹 Creational Pattern Questions
+
+Q4. When would you prefer Factory Method over Abstract Factory?
+A4.
+
+Factory Method → Lets subclasses decide how to create an object (one product family).
+
+Abstract Factory → Provides an interface for creating families of related objects without specifying their concrete classes.
+
+Q5. Why is Singleton considered an anti-pattern sometimes?
+A5.
+
+Encourages global state (harder to test/mock).
+
+Can cause hidden dependencies.
+
+Breaks SOLID principles (especially SRP).
+However, it’s useful in cases like logging, configuration, thread pools.
+
+Q6. How does Builder differ from Prototype?
+A6.
+
+Builder → Step-by-step construction of a complex object.
+
+Prototype → Cloning an existing object to avoid re-creation cost.
+
+🔹 Structural Pattern Questions
+
+Q7. Explain Adapter vs Decorator vs Proxy.
+A7.
+
+Adapter → Converts one interface into another (compatibility).
+
+Decorator → Adds new behavior dynamically without modifying the original class.
+
+Proxy → Controls access (lazy loading, caching, security).
+
+Q8. Give a real-world use case of Composite Pattern.
+A8. A file system: a folder can contain files or other folders. Both files and folders implement the same interface (IFileSystemNode), allowing recursive composition.
+
+Q9. How does Flyweight Pattern improve performance?
+A9.
+It reduces memory usage by sharing intrinsic state (immutable data) across objects. Example: Text editors share character glyph objects instead of creating a new object per character.
+
+🔹 Behavioral Pattern Questions
+
+Q10. Difference between Strategy and State Pattern?
+A10.
+
+Strategy → Encapsulates interchangeable algorithms (client chooses).
+
+State → Changes behavior of an object based on its internal state (object controls).
+Key difference: Who decides the behavior switch — client (Strategy) vs object itself (State).
+
+Q11. How does the Observer Pattern differ from Publisher-Subscriber?
+A11.
+
+Observer → Tight coupling; subject knows observers.
+
+Pub-Sub → Loose coupling via message broker/event bus (subject doesn’t know subscribers).
+Pub-Sub is more scalable and async-friendly.
+
+Q12. When would you use Chain of Responsibility?
+A12.
+When multiple handlers may process a request, and you don’t want the sender to know who handles it. Example: logging frameworks, middleware pipelines.
+
+🔹 Advanced / Scenario-Based
+
+Q13. How would you design a system for extensible payment gateways?
+A13. Use Strategy Pattern for different payment methods (CreditCard, PayPal, UPI, etc.), possibly combined with Factory Method for object creation.
+
+Q14. Your microservices app has different logging mechanisms (file, DB, cloud). Which pattern fits best?
+A14. Bridge Pattern → separates abstraction (Logger) from implementation (FileLogger, DBLogger, CloudLogger).
+
+Q15. You need to ensure a workflow pipeline where each step can be added/removed dynamically. Which pattern?
+A15. Chain of Responsibility or Pipeline Pattern.
+
+🔹 Additional (For Experienced Level)
+
+Q16. What is the difference between Template Method and Strategy?
+A16.
+
+Template Method → Defines algorithm skeleton, subclasses fill steps.
+
+Strategy → Entire algorithm interchangeable at runtime.
+
+Q17. How would you implement Dependency Injection with design patterns?
+A17.
+Dependency Injection is often implemented using the Factory or Service Locator pattern. Modern frameworks (Spring, .NET Core) automate this, but the underlying concept is based on Inversion of Control (IoC).
+
+Q18. Can you explain the Command Pattern with a real-world example?
+A18.
+Encapsulates a request as an object. Example: Undo/Redo in text editors — each action (Cut, Paste, Delete) is a command object that can be executed or rolled back.
+
+Q19. In multithreaded systems, how do you safely implement a Singleton?
+A19.
+
+Use Double-Checked Locking.
+
+Or use a static inner helper class in Java.
+
+Or rely on Enum-based Singleton (Java) / language-level guarantees.
+
+Q20. Which design patterns would you use in microservices architecture?
+A20.
+
+Circuit Breaker → Prevent cascading failures.
+
+Observer/Event-driven → Async communication.
+
+Proxy → API gateway for routing.
+
+Factory/Builder → Configurable service clients.
+
+🔹 Real-Time Scenario-Based Questions
+
+Q1. Your app supports multiple payment gateways (Credit Card, PayPal, UPI, Wallet). How will you design this?
+👉 Use Strategy Pattern to encapsulate different payment methods. Combine with Factory to instantiate based on config.
+
+Q2. You’re building a notification system that sends Email, SMS, and Push notifications. How will you design this extensibly?
+👉 Use Observer Pattern so multiple channels can subscribe to an event (e.g., “Order Shipped”). New channels can be added without modifying core code.
+
+Q3. In your project, you have different logging mechanisms (file, DB, cloud). You want to switch without changing client code.
+👉 Use Bridge Pattern (Logger abstraction + implementation variants). Could also use Strategy if you want runtime switching.
+
+Q4. You’re asked to design an undo/redo feature in a text editor. Which pattern will you choose?
+👉 Command Pattern → encapsulates each action (cut, copy, paste) as a command that can be executed and rolled back.
+
+Q5. Your e-commerce site shows a catalog of products where each category can contain subcategories or items. Which pattern fits?
+👉 Composite Pattern → treat individual products and product groups uniformly.
+
+Q6. You want to restrict object creation of a configuration class (only one instance throughout app). How will you do this?
+👉 Singleton Pattern → thread-safe, lazy-loaded (with double-checked locking or enum in Java).
+
+Q7. Your system has a request approval workflow (employee → manager → director → VP). How do you design it?
+👉 Chain of Responsibility Pattern → each handler decides whether to process or forward.
+
+Q8. You’re building a chat app. Messages should be broadcast to multiple users when someone sends a message. How will you design it?
+👉 Observer Pattern or Pub-Sub → sender publishes, all subscribers get notified.
+
+Q9. You’re designing a database connection pool so that object creation cost is minimized. Which pattern will you use?
+👉 Object Pool Pattern (Creational) → manages reusable connection objects.
+
+Q10. You have a report generator that supports PDF, Excel, and CSV outputs. How will you design this?
+👉 Factory Method or Abstract Factory → create appropriate report writer object based on requested format.
+
+Q11. Your app needs to support third-party APIs (Google, Facebook, LinkedIn login). How will you integrate them seamlessly?
+👉 Adapter Pattern → convert third-party API responses to your application’s format.
+
+Q12. You want to cache heavy objects (e.g., game characters, document templates) instead of creating them repeatedly.
+👉 Prototype Pattern → clone existing objects instead of creating from scratch.
+
+Q13. In your company’s microservices system, one service failure causes cascading failures. How do you prevent this?
+👉 Proxy / Circuit Breaker Pattern → proxy monitors calls, and opens circuit if service is unhealthy.
+
+Q14. Your system should allow customers to apply multiple discounts (coupon, seasonal offer, cashback). How would you design it?
+👉 Decorator Pattern → wrap objects dynamically with multiple discount behaviors.
+
+Q15. You need to implement a scheduler where tasks execute in sequence, but new tasks can be plugged in dynamically.
+👉 Chain of Responsibility or Command + Queue (depends on flexibility needed).

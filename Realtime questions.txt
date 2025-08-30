@@ -1,0 +1,284 @@
+🔹 Core Spring Boot Questions
+==============================
+
+🔹 REST API Design & Best Practices
+
+What are idempotent HTTP methods? Can you give examples?
+
+How do you design error handling for REST APIs?
+
+How do you handle versioning in REST APIs?
+
+What are the pros/cons of returning DTOs vs Entities in REST responses?
+
+How do you implement pagination and sorting in Spring Boot REST APIs?
+
+🔹 Security & Authentication
+
+How do you secure REST APIs with Spring Security + JWT?
+
+Explain the OAuth2 flow and how you would implement it in Spring Boot.
+
+What’s the difference between authentication and authorization in REST APIs?
+
+How do you prevent CSRF, XSS, and SQL injection attacks in REST APIs?
+
+How do you handle CORS in Spring Boot REST APIs?
+
+🔹 Exception Handling
+
+How do you implement global exception handling in Spring Boot REST API?
+
+Difference between @ControllerAdvice and @ExceptionHandler.
+
+How do you design custom error codes/messages for APIs?
+
+🔹 Performance & Scalability
+
+How do you improve REST API performance in Spring Boot?
+
+Explain caching strategies in Spring Boot (@Cacheable, Redis integration).
+
+How do you implement async REST calls in Spring Boot?
+
+What is connection pooling in REST APIs? How do you configure it?
+
+How do you handle high concurrent requests in Spring Boot REST APIs?
+
+🔹 Database & Transactions
+
+How do you manage transactions in Spring Boot REST APIs?
+
+Difference between @Transactional(propagation=REQUIRED) vs REQUIRES_NEW.
+
+How do you handle N+1 query problems in JPA with REST APIs?
+
+How do you return partial responses (only required fields) in REST API?
+
+🔹 Real-Time Scenarios
+
+If your REST API is responding slowly, how would you debug and fix it?
+
+How do you ensure backward compatibility when updating APIs?
+
+How do you handle file uploads and downloads in REST APIs?
+
+How do you design APIs for long-running tasks (async processing, polling, WebSocket)?
+
+What would you do if two REST services depend on each other (circular dependency issue)?
+
+How do you handle rate limiting in Spring Boot REST APIs?
+
+🔹 Advanced Topics
+
+Difference between RestTemplate, WebClient, and FeignClient.
+
+How does Spring Boot support reactive programming (Mono, Flux)?
+
+Explain HATEOAS in REST API. Do you use it in real projects?
+
+How do you integrate Swagger/OpenAPI with Spring Boot for API documentation?
+
+How do you implement logging and monitoring in REST APIs (ELK, Micrometer, Prometheus, Zipkin)?
+
+What’s the difference between synchronous and asynchronous REST APIs?
+
+How do you design APIs that support both REST and GraphQL in Spring Boot?
+
+What if your API is failing intermittently in production?" or "How do you make your APIs fault tolerant?
+
+#########################################################################################################################
+Scenario 1: Two users update the same resource at the same time. How do you handle it?
+======================================================================================
+
+Use Optimistic Locking with @Version field in JPA entity (prevents overwriting changes).
+
+Or use Pessimistic Locking (LockModeType.PESSIMISTIC_WRITE) for strict locking.
+
+Return 409 Conflict if update conflict occurs.
+
+#########################################################################################################################
+Scenario 2: Your API suddenly becomes slow in production. What steps do you take?
+======================================================================================
+Check database queries (enable Hibernate SQL logs, analyze slow queries).
+
+Review thread dumps and GC logs.
+
+Enable Spring Boot Actuator + Micrometer for monitoring.
+
+Add caching, connection pooling, and indexing on DB.
+
+#########################################################################################################################
+Scenario 3: How do you ensure backward compatibility while updating APIs?
+======================================================================================
+Support multiple versions of API (/v1/, /v2/).
+
+Use feature flags for new behavior.
+
+Mark old endpoints as deprecated but keep them functional until clients migrate.
+
+##########################################################################################################################
+Scenario 4: How do you handle long-running processes in REST APIs?
+======================================================================================
+Return 202 Accepted immediately with a tracking ID.
+
+Process asynchronously using @Async, CompletableFuture, or message queues (Kafka, RabbitMQ).
+
+Provide status endpoint (/jobs/{id}/status) for polling.
+
+Optionally use WebSockets/Server-Sent Events for push updates.
+
+##########################################################################################################################
+Scenario 5: If one microservice depends on another and it fails, how do you make APIs fault-tolerant?
+======================================================================================
+Use Circuit Breaker (Resilience4j, Hystrix) to avoid cascading failures.
+
+Implement retries with exponential backoff.
+
+Use fallback responses or cached data when service is unavailable.
+
+##########################################################################################################################
+Scenario 6: How do you handle rate limiting in REST APIs?
+======================================================================================
+Implement Bucket4j or Redis-based rate limiting.
+
+Use API Gateway (Kong, Zuul, Spring Cloud Gateway) for throttling.
+
+Return 429 Too Many Requests when limit exceeded.
+
+##########################################################################################################################
+Scenario 7: How do you handle partial updates to a resource?
+======================================================================================
+Use HTTP PATCH with only changed fields.
+
+Validate and merge fields before persisting.
+
+##########################################################################################################################
+Scenario 8: What if your REST API needs to serve millions of requests daily?
+======================================================================================
+Use horizontal scaling (Kubernetes, Docker).
+
+Optimize DB with sharding/replication.
+
+Enable caching at DB (Redis) and API gateway level.
+
+Monitor using ELK, Prometheus + Grafana.
+
+##########################################################################################################################
+Scenario 9: How do you secure sensitive APIs (like payments)?
+======================================================================================
+Use HTTPS always.
+
+JWT with short expiry + refresh tokens.
+
+OAuth2 for third-party integrations.
+
+Encrypt sensitive data (AES, RSA).
+
+##########################################################################################################################
+Scenario 10: How do you debug a failing API in production?
+======================================================================================
+Check logs (structured logging with SLF4J + Logback/Log4j2).
+
+Trace requests with Sleuth + Zipkin/Jaeger.
+
+Monitor exceptions via ELK stack or Sentry.
+
+Use Spring Boot Actuator health endpoints for diagnostics.
+
+##########################################################################################################################
+Scenario 11: How do you handle large file uploads/downloads in REST APIs?
+======================================================================================
+Use streaming (StreamingResponseBody) instead of loading file fully in memory.
+
+For uploads, use MultipartFile with streaming.
+
+Use chunked upload for very large files.
+
+##########################################################################################################################
+Scenario 12: How do you test REST APIs in Spring Boot?
+======================================================================================
+Unit test with @WebMvcTest + MockMvc.
+
+Integration test with @SpringBootTest + TestRestTemplate or WebTestClient.
+
+API contract testing using Postman/Newman or RestAssured.
+
+##########################################################################################################################
+Scenario 13: How do you implement logging & monitoring in production APIs?
+======================================================================================
+Centralized logging with ELK Stack (Elasticsearch, Logstash, Kibana).
+
+Metrics with Micrometer + Prometheus + Grafana.
+
+Distributed tracing with Sleuth + Zipkin/Jaeger.
+
+
+##########################################################################################################################
+Scenario 14: Your database is overloaded because of too many API requests. What do you do?
+======================================================================================
+Add caching (Redis, EhCache).
+
+Implement read replicas and route read-only queries.
+
+Use batch inserts/updates instead of one-by-one.
+
+Apply CQRS pattern (Command Query Responsibility Segregation).
+
+##########################################################################################################################
+Scenario 15: How do you handle request validation?
+======================================================================================
+Use @Valid with @RequestBody + Hibernate Validator annotations (@NotNull, @Email, etc.).
+
+For custom rules, implement @ConstraintValidator.
+
+Return 400 Bad Request with validation errors.
+
+##########################################################################################################################
+Scenario 16: How do you implement search/filter functionality in REST APIs?
+======================================================================================
+Use Spring Data JPA Specification or QueryDSL.
+
+Provide query params like /users?name=John&age=30.
+
+Paginate + sort results for performance.
+##########################################################################################################################
+Scenario 17: Your microservice needs to call another microservice. How do you handle inter-service communication?
+======================================================================================
+Use FeignClient (declarative REST client).
+
+Use WebClient (non-blocking, reactive).
+
+Handle retries, timeouts, and circuit breakers.
+
+##########################################################################################################################
+Scenario 18: How do you migrate a legacy Spring MVC project to Spring Boot?
+======================================================================================
+Start with Spring Boot starter dependencies.
+
+Move XML configs → Java-based configs.
+
+Integrate old services gradually.
+
+Add Actuator and monitoring as part of modernization.
+
+##########################################################################################################################
+Scenario 19: How do you design APIs for mobile clients vs web clients?
+======================================================================================
+Use lightweight JSON payloads.
+
+Enable gzip compression for responses.
+
+Provide GraphQL or specific DTOs to reduce over-fetching.
+
+##########################################################################################################################
+Scenario 20: How do you handle API documentation for large teams?
+======================================================================================
+Use Swagger/OpenAPI with springdoc-openapi.
+
+Keep API docs versioned with code.
+
+Generate Postman collections automatically.
+
+##########################################################################################################################
+

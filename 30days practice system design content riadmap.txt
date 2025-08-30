@@ -1,0 +1,135 @@
+Week 1 – Fundamentals & Core Concepts
+
+🎯 Goal: Build strong basics & vocabulary
+
+Day 1-2: System Design Fundamentals
+
+Client → Load Balancer → Service → DB → Cache → Queue
+
+CAP theorem, Consistency vs Availability
+
+Latency vs Throughput
+
+Day 3-4: Load Balancing
+
+L4 vs L7
+
+Algorithms (Round robin, Least connections, IP hash)
+
+SSL termination, Sticky sessions
+
+Day 5-6: Caching
+
+LRU vs LFU eviction
+
+Write-through vs write-back vs write-around
+
+Cache invalidation
+
+Redis vs Memcached
+
+Day 7 (Weekend): Practice
+
+Draw diagrams for: Load balancer setup + caching layer in e-commerce
+
+Week 2 – Must-Know System Designs
+
+🎯 Goal: Master top 3 most asked systems
+
+Day 8-10: E-commerce System
+
+Product catalog (SQL vs NoSQL)
+
+Cart design (multi-device sync)
+
+Order, Payment, Inventory consistency
+
+Recommendation basics
+
+Day 11-12: URL Shortener (bit.ly)
+
+Base62 encoding, hash vs counter
+
+Cache for short → long mapping
+
+Analytics (click tracking)
+
+Day 13-14: Chat/Messaging App
+
+WebSockets vs Polling
+
+Offline messaging
+
+Message delivery guarantees
+
+Group chat scaling
+
+Weekend Task: Whiteboard E-commerce + URL Shortener
+
+Week 3 – Medium Priority Designs
+
+🎯 Goal: Expand to broader backend scenarios
+
+Day 15-16: Database Sharding & Replication
+
+Master-slave replication
+
+Horizontal vs vertical sharding
+
+Global ID generation (Snowflake IDs)
+
+Day 17-18: Message Queues (RabbitMQ, Kafka)
+
+Kafka → partitions, ordering, replay
+
+RabbitMQ → acknowledgements, retries
+
+Use cases → notifications, event streaming
+
+Day 19-20: Notification System
+
+Async queue design
+
+Rate limiting, retries, DLQ (dead-letter queue)
+
+Day 21 (Weekend): Practice
+
+Draw diagrams for: Chat App + Notification System
+
+Week 4 – Advanced & Mock Interviews
+
+🎯 Goal: Be interview-ready
+
+Day 22-23: Search System
+
+Full-text search (Elasticsearch)
+
+Autocomplete, filters
+
+Ranking relevance
+
+Day 24-25: Rate Limiter & API Gateway
+
+Token bucket, leaky bucket
+
+Redis-based rate limiting
+
+Day 26-27: News Feed (Twitter/Facebook)
+
+Push vs Pull
+
+Fan-out vs Fan-in
+
+Ranking feed items
+
+Day 28-29: Mock Interview Practice
+
+Take one problem each day (E-commerce, Chat)
+
+Explain out loud, draw diagram, discuss trade-offs
+
+Day 30 (Final Day):
+
+Do a full mock system design round (timer: 45 min)
+
+Example: “Design a chat app that supports 50M users with offline storage and real-time delivery.”

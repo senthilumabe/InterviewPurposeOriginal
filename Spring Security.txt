@@ -1,0 +1,653 @@
+What is Spring Security?
+==========================================
+Spring Security is a powerful framework that provides authentication, authorization, and security features for Java applications.
+
+Protects applications from common vulnerabilities (XSS, CSRF, session fixation).
+
+Supports multiple authentication mechanisms (form login, OAuth2, JWT, LDAP).
+
+Easily integrates with Spring Boot.
+
+Provides role-based and method-level security.
+
+#########################################################################################################################
+
+What are the main features of Spring Security?
+==========================================
+Spring Security offers a wide range of features for securing applications.
+
+Authentication & Authorization.
+
+Password encoding and management.
+
+Protection against CSRF, XSS, clickjacking.
+
+Integration with OAuth2 and JWT.
+
+Method-level security with annotations.
+
+Security filters and customizable filter chains.
+
+#########################################################################################################################
+
+How does authentication work in Spring Security?
+==========================================
+Authentication is the process of verifying user identity.
+
+User submits credentials (username/password).
+
+AuthenticationManager validates credentials.
+
+If successful, an Authentication object is stored in SecurityContextHolder.
+
+The user is now considered "logged in".
+
+#########################################################################################################################
+
+What is the difference between authentication and authorization?
+==========================================
+
+Authentication → Verifies who the user is.
+
+Authorization → Decides what the user can access.
+
+Example:
+
+Authentication: Login with username/password.
+
+Authorization: Admins can access /admin, but users cannot.
+
+#########################################################################################################################
+
+What is the SecurityContext in Spring Security?
+==========================================
+The SecurityContext stores the authentication details of the current user.
+
+Holds an Authentication object.
+
+Stored in a ThreadLocal for each request.
+
+Accessed via SecurityContextHolder.getContext().
+
+Used throughout the application for user identity checks.
+
+#########################################################################################################################
+
+What is PasswordEncoder in Spring Security?
+==========================================
+PasswordEncoder is used to hash and verify passwords.
+
+Common implementations:
+
+BCryptPasswordEncoder (most recommended).
+
+Pbkdf2PasswordEncoder.
+
+Argon2PasswordEncoder.
+
+Never store passwords in plain text.
+
+Example:
+
+PasswordEncoder encoder = new BCryptPasswordEncoder();
+String encoded = encoder.encode("mypassword");
+
+
+#########################################################################################################################
+
+What are security filters in Spring Security?
+==========================================
+Spring Security uses a filter chain to secure HTTP requests.
+
+Each filter performs a specific task (authentication, CSRF, session management).
+
+Key filters include:
+
+UsernamePasswordAuthenticationFilter.
+
+BasicAuthenticationFilter.
+
+CsrfFilter.
+
+Filters are executed in a specific order of priority.
+
+#########################################################################################################################
+
+What is CSRF and how does Spring Security handle it?
+==========================================
+CSRF (Cross-Site Request Forgery) is an attack that tricks users into making unwanted requests.
+
+Example: Malicious website submits a request on behalf of a logged-in user.
+
+Spring Security provides CSRF tokens to protect against this.
+
+Token is included in forms and validated on the server.
+
+Enabled by default in Spring Security.
+
+#########################################################################################################################
+
+What is method-level security in Spring Security?
+==========================================
+Spring Security allows restricting access at the method level using annotations.
+
+@PreAuthorize("hasRole('ADMIN')") → Check before method execution.
+
+@PostAuthorize("returnObject.owner == authentication.name") → Check after method execution.
+
+@Secured("ROLE_USER") → Restrict method to specific roles.
+
+Useful for fine-grained access control.
+
+#########################################################################################################################
+
+What is the difference between role-based and permission-based authorization?
+==========================================
+
+Role-based authorization → Access granted based on roles (e.g., ADMIN, USER).
+
+Permission-based authorization → More fine-grained, checks for specific actions (e.g., READ_USER, DELETE_USER).
+
+Role-based = coarse-grained, Permission-based = fine-grained.
+
+#########################################################################################################################
+
+What is AuthenticationManager in Spring Security?
+==========================================
+AuthenticationManager is the core interface for authentication.
+
+It validates user credentials.
+
+Delegates to AuthenticationProvider.
+
+If authentication succeeds → returns an Authentication object.
+
+If fails → throws AuthenticationException.
+
+#########################################################################################################################
+
+What is AuthenticationProvider?
+==========================================
+AuthenticationProvider is responsible for performing actual authentication.
+
+Multiple providers can be configured.
+
+Example:
+
+DaoAuthenticationProvider → Validates against database.
+
+LdapAuthenticationProvider → Validates against LDAP.
+
+Works inside AuthenticationManager.
+
+#########################################################################################################################
+
+What is UserDetailsService in Spring Security?
+==========================================
+UserDetailsService is an interface for loading user-specific data.
+
+Method:
+
+UserDetails loadUserByUsername(String username)
+
+
+Returns a UserDetails object containing username, password, roles.
+
+Used by DaoAuthenticationProvider for authentication.
+
+#########################################################################################################################
+
+What is UserDetails in Spring Security?
+==========================================
+UserDetails is an interface representing a user object.
+
+Contains:
+
+getUsername().
+
+getPassword().
+
+getAuthorities().
+
+isAccountNonExpired().
+
+isEnabled().
+
+Usually returned by UserDetailsService.
+
+#########################################################################################################################
+
+What is GrantedAuthority in Spring Security?
+==========================================
+GrantedAuthority represents permissions or roles.
+
+Example: ROLE_ADMIN, READ_PRIVILEGE.
+
+Used by Spring Security to check authorization.
+
+A user can have multiple authorities.
+
+#########################################################################################################################
+
+What is SecurityFilterChain in Spring Security?
+==========================================
+SecurityFilterChain defines the chain of security filters applied to requests.
+
+Configured in SecurityConfig class.
+
+Example:
+
+@Bean
+SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    http.authorizeHttpRequests(auth -> auth
+         .requestMatchers("/admin/**").hasRole("ADMIN")
+         .anyRequest().authenticated());
+    return http.build();
+}
+
+
+#########################################################################################################################
+
+What is the default login page in Spring Security?
+==========================================
+
+Spring Security provides a default login form at /login.
+
+Default logout URL: /logout.
+
+Can be customized with .formLogin().loginPage("/customLogin").
+
+#########################################################################################################################
+
+What are security annotations in Spring Security?
+==========================================
+
+@EnableWebSecurity → Enables Spring Security in project.
+
+@PreAuthorize → Pre-authorization checks.
+
+@PostAuthorize → Post-authorization checks.
+
+@Secured → Restrict access by roles.
+
+@RolesAllowed → Alternative for role-based checks.
+
+#########################################################################################################################
+
+What is OAuth2 in Spring Security?
+==========================================
+OAuth2 is an authorization framework supported by Spring Security.
+
+Allows secure access using access tokens.
+
+Supports flows: Authorization Code, Client Credentials, Password.
+
+Commonly used for Google, Facebook, GitHub login integrations.
+
+#########################################################################################################################
+
+What is JWT in Spring Security?
+==========================================
+JWT (JSON Web Token) is used for stateless authentication.
+
+Consists of Header, Payload, Signature.
+
+Stored in client-side (localStorage/cookie).
+
+No need for server-side sessions.
+
+Spring Security integrates JWT via custom filters.
+
+#########################################################################################################################
+
+What is CORS in Spring Security?
+==========================================
+CORS (Cross-Origin Resource Sharing) controls requests from different domains.
+
+Prevents unauthorized domains from accessing APIs.
+
+Configured in Spring Security using:
+
+http.cors();
+
+
+Also configurable via CorsFilter.
+
+#########################################################################################################################
+
+What is Session Fixation in Spring Security?
+==========================================
+Session fixation is an attack where a hacker forces a user to use a known session ID.
+
+Spring Security prevents this by generating a new session ID after login.
+
+Configured with:
+
+http.sessionManagement().sessionFixation().migrateSession();
+
+
+#########################################################################################################################
+
+What are Remember-Me services in Spring Security?
+==========================================
+Remember-Me keeps users logged in across sessions.
+
+Uses a cookie (remember-me).
+
+Configured with .rememberMe().
+
+Requires a PersistentTokenRepository for storing tokens.
+
+#########################################################################################################################
+
+What is LDAP authentication in Spring Security?
+==========================================
+Spring Security supports authentication against LDAP servers.
+
+Configured using .ldapAuthentication().
+
+Can validate user credentials from LDAP directory.
+
+Useful in enterprise applications.
+
+#########################################################################################################################
+
+What is Basic Authentication in Spring Security?
+==========================================
+Basic Authentication uses Authorization header with Base64 encoded credentials.
+
+Example:
+
+Authorization: Basic dXNlcjpwYXNz
+
+
+Not secure unless used over HTTPS.
+
+Enabled with .httpBasic().
+
+#########################################################################################################################
+
+What is Digest Authentication in Spring Security?
+==========================================
+Digest Authentication is similar to Basic Auth but uses hashing.
+
+More secure than Basic Auth.
+
+Rarely used today (JWT and OAuth2 preferred).
+
+#########################################################################################################################
+
+What is form-based authentication in Spring Security?
+==========================================
+Form-based login uses a login form for authentication.
+
+Default login page: /login.
+
+Can be customized with:
+
+http.formLogin().loginPage("/myLogin");
+
+
+#########################################################################################################################
+
+What is custom authentication in Spring Security?
+==========================================
+Custom authentication allows implementing your own logic.
+
+Extend AuthenticationProvider or AbstractUserDetailsAuthenticationProvider.
+
+Useful for integrating external systems.
+
+#########################################################################################################################
+
+What are Security Expressions in Spring Security?
+==========================================
+Security expressions allow writing authorization rules in SpEL.
+
+Examples:
+
+@PreAuthorize("hasRole('ADMIN')").
+
+@PreAuthorize("#username == authentication.name").
+
+#########################################################################################################################
+
+What is AccessDecisionManager in Spring Security?
+==========================================
+AccessDecisionManager makes final access decisions.
+
+Uses voters (AccessDecisionVoter).
+
+Example voters: RoleVoter, AuthenticatedVoter.
+
+#########################################################################################################################
+
+What is SecurityContextPersistenceFilter?
+==========================================
+
+Loads SecurityContext from session.
+
+Stores updated SecurityContext back into session after request.
+
+#########################################################################################################################
+
+What is ExceptionTranslationFilter?
+==========================================
+Handles security exceptions.
+
+Converts AccessDeniedException to 403 Forbidden.
+
+Converts AuthenticationException to 401 Unauthorized.
+
+#########################################################################################################################
+
+What is AnonymousAuthenticationFilter?
+==========================================
+Provides an anonymous authentication object when no user is logged in.
+
+Ensures every request has an Authentication.
+
+#########################################################################################################################
+
+What is DelegatingFilterProxy in Spring Security?
+==========================================
+DelegatingFilterProxy is used to integrate Spring Security filters with servlet containers.
+
+Delegates filter execution to Spring-managed beans.
+
+#########################################################################################################################
+
+How do you secure REST APIs with Spring Security?
+==========================================
+
+Use JWT/OAuth2 for authentication.
+
+Disable CSRF for stateless APIs.
+
+Secure endpoints with .authorizeHttpRequests().
+
+Example:
+
+http.csrf().disable()
+    .authorizeHttpRequests()
+    .requestMatchers("/api/admin/**").hasRole("ADMIN")
+    .anyRequest().authenticated();
+
+
+#########################################################################################################################
+
+What is Two-Factor Authentication in Spring Security?
+==========================================
+Adds an extra layer of authentication (e.g., OTP, SMS, email).
+
+Implemented by extending authentication flow.
+
+Commonly integrated with Google Authenticator.
+
+#########################################################################################################################
+
+What is the difference between stateful and stateless authentication?
+==========================================
+
+Stateful → Server maintains session.
+
+Stateless → Client stores token (JWT).
+
+REST APIs prefer stateless for scalability.
+
+#########################################################################################################################
+
+How does Spring Security protect against Clickjacking?
+==========================================
+
+Uses X-Frame-Options header.
+
+Configured with:
+
+http.headers().frameOptions().deny();
+
+
+#########################################################################################################################
+
+How do you secure WebSockets in Spring Security?
+==========================================
+
+Add authentication during WebSocket handshake.
+
+Use ChannelInterceptor to check authentication.
+
+Example: restrict /chat/** to authenticated users.
+
+#########################################################################################################################
+
+What is Keycloak and how can it integrate with Spring Security?
+==========================================
+Keycloak is an identity and access management solution.
+
+Supports OAuth2, OpenID Connect, SAML.
+
+Spring Security integrates via Keycloak adapter.
+
+Useful for single sign-on (SSO).
+
+#########################################################################################################################
+
+What is SecurityContextHolder?
+==========================================
+Stores the SecurityContext for current request thread.
+
+Modes:
+
+MODE_THREADLOCAL (default).
+
+MODE_INHERITABLETHREADLOCAL.
+
+#########################################################################################################################
+
+How do you secure microservices with Spring Security?
+==========================================
+
+Use JWT or OAuth2 tokens for service-to-service communication.
+
+Centralized authentication with API Gateway.
+
+Secure each service with Spring Security.
+
+#########################################################################################################################
+
+What is PKCE in OAuth2 with Spring Security?
+==========================================
+PKCE (Proof Key for Code Exchange) is an extension for OAuth2.
+
+Prevents interception attacks in public clients.
+
+Uses code_verifier and code_challenge.
+
+#########################################################################################################################
+
+What is Refresh Token in OAuth2?
+==========================================
+
+Refresh Token is used to get new Access Tokens without re-login.
+
+Example: Mobile apps use refresh tokens to stay logged in.
+
+#########################################################################################################################
+
+What is Multi-Tenancy Security in Spring?
+==========================================
+Securing apps serving multiple tenants.
+
+Separate databases per tenant.
+
+Tenant-based role checks.
+
+#########################################################################################################################
+
+What is XSS and how does Spring Security prevent it?
+==========================================
+XSS (Cross-Site Scripting) injects malicious scripts.
+
+Spring Security escapes HTML in views.
+
+Can integrate with libraries like ESAPI.
+
+#########################################################################################################################
+
+How do you secure Actuator endpoints in Spring Boot?
+==========================================
+
+Expose minimal endpoints.
+
+Secure with .requestMatchers("/actuator/**").hasRole("ADMIN").
+
+Hide sensitive endpoints in production.
+
+#########################################################################################################################
+
+What is Security Testing in Spring Security?
+==========================================
+
+Use Spring Security Test module.
+
+Provides @WithMockUser and @WithUserDetails.
+
+Example:
+
+@WithMockUser(roles="ADMIN")
+@Test
+void testAdminAccess() {...}
+
+
+#########################################################################################################################
+
+What are some best practices in Spring Security?
+==========================================
+
+Always use BCrypt for password hashing.
+
+Use HTTPS everywhere.
+
+Keep dependencies updated.
+
+Enable CSRF for web apps, disable for APIs.
+
+Implement rate limiting.
+
+Use JWT/OAuth2 for stateless authentication.
+
+#########################################################################################################################
+
+How do you troubleshoot Spring Security issues?
+==========================================
+
+Enable debug logs: logging.level.org.springframework.security=DEBUG.
+
+Check filter chain execution.
+
+Verify SecurityContextHolder values.
+
+Use Spring Security Test for controlled testing.
+
+#########################################################################################################################
+

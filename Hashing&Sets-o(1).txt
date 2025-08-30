@@ -1,0 +1,115 @@
+Section 6: Hashing & Sets – O(1) Lookups with full Java 8 programs
+===================================================================
+1️⃣ Check if Array Contains Duplicate – O(n) time, O(1) average lookup
+====================================================================
+import java.util.*;
+
+public class ContainsDuplicate {
+    public static boolean containsDuplicate(int[] nums) {
+        Set<Integer> seen = new HashSet<>();
+        for (int num : nums) {
+            if (!seen.add(num)) return true; // duplicate found
+        }
+        return false;
+    }
+
+    public static void main(String[] args) {
+        int[] nums = {1, 2, 3, 1};
+        System.out.println(containsDuplicate(nums)); // true
+    }
+}
+--------------------------------------------------------------------------------------------------------------------------
+2️⃣ Find First Non-Repeating Character – O(1) lookup
+===================================================
+import java.util.*;
+
+public class FirstNonRepeatingChar {
+    public static char firstUniqChar(String s) {
+        Map<Character, Integer> count = new HashMap<>();
+        for (char c : s.toCharArray()) {
+            count.put(c, count.getOrDefault(c, 0) + 1);
+        }
+        for (char c : s.toCharArray()) {
+            if (count.get(c) == 1) return c;
+        }
+        return '_'; // no unique char
+    }
+
+    public static void main(String[] args) {
+        System.out.println(firstUniqChar("leetcode")); // l
+        System.out.println(firstUniqChar("aabb"));     // _
+    }
+}
+--------------------------------------------------------------------------------------------------------------------------
+3️⃣ Two Sum Problem – O(1) lookup
+================================
+import java.util.*;
+
+public class TwoSum {
+    public static int[] twoSum(int[] nums, int target) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            int complement = target - nums[i];
+            if (map.containsKey(complement)) {
+                return new int[]{map.get(complement), i};
+            }
+            map.put(nums[i], i);
+        }
+        return new int[]{-1, -1};
+    }
+
+    public static void main(String[] args) {
+        int[] nums = {2, 7, 11, 15};
+        System.out.println(Arrays.toString(twoSum(nums, 9))); // [0, 1]
+    }
+}
+--------------------------------------------------------------------------------------------------------------------------
+4️⃣ Find Intersection of Two Arrays – O(1) lookup
+================================================
+import java.util.*;
+
+public class ArrayIntersection {
+    public static int[] intersection(int[] nums1, int[] nums2) {
+        Set<Integer> set1 = new HashSet<>();
+        for (int n : nums1) set1.add(n);
+
+        Set<Integer> result = new HashSet<>();
+        for (int n : nums2) {
+            if (set1.contains(n)) result.add(n);
+        }
+
+        return result.stream().mapToInt(Integer::intValue).toArray();
+    }
+
+    public static void main(String[] args) {
+        int[] nums1 = {1, 2, 2, 1};
+        int[] nums2 = {2, 2};
+        System.out.println(Arrays.toString(intersection(nums1, nums2))); // [2]
+    }
+}
+--------------------------------------------------------------------------------------------------------------------------
+5️⃣ Subarray Sum Equals K – O(1) lookup
+======================================
+import java.util.*;
+
+public class SubarraySumK {
+    public static int subarraySum(int[] nums, int k) {
+        Map<Integer, Integer> map = new HashMap<>();
+        map.put(0, 1);
+        int sum = 0, count = 0;
+
+        for (int num : nums) {
+            sum += num;
+            if (map.containsKey(sum - k)) {
+                count += map.get(sum - k);
+            }
+            map.put(sum, map.getOrDefault(sum, 0) + 1);
+        }
+        return count;
+    }
+
+    public static void main(String[] args) {
+        int[] nums = {1, 1, 1};
+        System.out.println(subarraySum(nums, 2)); // 2
+    }
+}

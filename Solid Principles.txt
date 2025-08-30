@@ -1,0 +1,325 @@
+🔹 SOLID Principles
+=====================
+The SOLID principles are a set of five object-oriented design principles introduced by Robert C. Martin (Uncle Bob).
+They help create flexible, maintainable, and scalable software.
+
+S → Single Responsibility Principle (SRP)
+==========================================
+👉 A class should have only one reason to change (i.e., one responsibility).
+
+❌ Bad Example:
+================
+class Report {
+    void generateReport() {}
+    void saveToDatabase() {}
+    void sendEmail() {}
+}
+
+Here, the class handles reporting, persistence, and notification → multiple responsibilities.
+
+✅ Good Example (SRP Applied):
+===============================
+class ReportGenerator { void generateReport() {} }
+class ReportRepository { void saveToDatabase() {} }
+class ReportMailer { void sendEmail() {} }
+
+Now each class has one job → easier to maintain.
+==================================================================================================================
+O → Open/Closed Principle (OCP)
+==================================
+👉 Software entities should be open for extension but closed for modification.
+You should be able to add new features without changing existing code.
+
+❌ Bad Example:
+================
+class Payment {
+    void processPayment(String type) {
+        if(type.equals("CreditCard")) { /* logic */ }
+        else if(type.equals("UPI")) { /* logic */ }
+    }
+}
+
+Adding a new payment type means modifying the class.
+
+✅ Good Example (OCP with Strategy Pattern):
+=============================================
+interface PaymentStrategy { void pay(); }
+
+class CreditCardPayment implements PaymentStrategy { public void pay() {} }
+class UpiPayment implements PaymentStrategy { public void pay() {} }
+
+class PaymentProcessor {
+    private PaymentStrategy strategy;
+    PaymentProcessor(PaymentStrategy strategy) { this.strategy = strategy; }
+    void processPayment() { strategy.pay(); }
+}
+
+Now we can add new payment methods without changing PaymentProcessor.
+
+=========================================================================================================
+L → Liskov Substitution Principle (LSP)
+=========================================
+
+👉 Objects of a superclass should be replaceable with objects of a subclass without breaking the program.
+
+❌ Bad Example:
+================
+class Bird { void fly() {} }
+class Ostrich extends Bird { void fly() { throw new UnsupportedOperationException(); } }
+
+Here, Ostrich breaks expectations → violates LSP.
+
+✅ Good Example:
+==================
+interface Bird {}
+interface Flyable { void fly(); }
+
+class Sparrow implements Bird, Flyable { public void fly() {} }
+class Ostrich implements Bird {}
+
+Now Ostrich doesn’t pretend to fly → follows LSP.
+
+========================================================================================================================
+I → Interface Segregation Principle (ISP)
+============================================
+👉 Clients should not be forced to depend on methods they don’t use.
+Better to have many small interfaces than one “fat” interface.
+
+❌ Bad Example:
+================
+interface Worker {
+    void work();
+    void eat();
+}
+class Robot implements Worker {
+    public void work() {}
+    public void eat() { throw new UnsupportedOperationException(); }
+}
+
+Robot doesn’t need eat().
+
+✅ Good Example:
+=================
+interface Workable { void work(); }
+interface Eatable { void eat(); }
+
+class Human implements Workable, Eatable { public void work() {} public void eat() {} }
+class Robot implements Workable { public void work() {} }
+
+Now each class only implements what it needs.
+==========================================================================================================
+D → Dependency Inversion Principle (DIP)
+=========================================
+👉 High-level modules should not depend on low-level modules.
+Both should depend on abstractions (interfaces).
+
+❌ Bad Example:
+=================
+class MySQLDatabase {
+    void saveData() {}
+}
+
+class UserService {
+    MySQLDatabase db = new MySQLDatabase();
+    void saveUser() { db.saveData(); }
+}
+
+Here UserService depends on a concrete database.
+
+✅ Good Example:
+===================
+interface Database {
+    void saveData();
+}
+
+class MySQLDatabase implements Database {
+    public void saveData() {}
+}
+
+class MongoDatabase implements Database {
+    public void saveData() {}
+}
+
+class UserService {
+    private Database db;
+    UserService(Database db) { this.db = db; }
+    void saveUser() { db.saveData(); }
+}
+
+Now we can switch databases without changing UserService.
+
+🔑 Quick Recap
+==================
+S → One class = One job.
+
+O → Add features without touching existing code.
+
+L → Subtypes should behave like their parent type.
+
+I → No fat interfaces, only what’s needed.
+
+D → Depend on abstractions, not implementations.
+
+########################################################################################################################
+🔹 Real-Time SOLID Principle Questions
+========================================
+1. Single Responsibility Principle (SRP)
+=========================================
+Q: You have a User class that handles user authentication,sending emails,saving data.What’s wrong here? How do you fix it?
+==========================================================================================================================
+
+A: This violates SRP → one class should have only one reason to change.
+
+👉 Fix: Split into multiple classes:
+=====================================
+
+AuthService → login/validation.
+
+EmailService → sending notifications.
+
+UserRepository → DB operations.
+
+This makes code easier to maintain and test.
+
+########################################################################################################################
+2. Open/Closed Principle (OCP)
+================================
+
+Q: Your company wants to support new payment methods (Card, UPI, Crypto). Currently, PaymentService has big if-else conditions. How do you design it for easy extension?
+
+A: This violates OCP → class should be open for extension, closed for modification.
+👉 Fix: Use Strategy Pattern.
+
+Define PaymentStrategy interface.
+
+Implement CardPayment, UpiPayment, CryptoPayment.
+
+PaymentProcessor uses the strategy.
+
+Now adding a new method doesn’t change existing code.
+
+########################################################################################################################
+3. Liskov Substitution Principle (LSP)
+
+Q: You have a Bird base class with fly(). But Ostrich extends Bird and throws an exception when fly() is called. What’s wrong here?
+
+A: Violates LSP → subclasses should behave like their parent class.
+👉 Fix:
+
+Create FlyableBird (with fly()).
+
+Bird is just a marker/interface.
+
+Ostrich extends Bird (without fly).
+
+Now no subclass breaks behavior expectations.
+
+########################################################################################################################
+4. Interface Segregation Principle (ISP)
+
+Q: You created a Worker interface with work() and eat(). Now Robot implements Worker, but robots don’t eat. How do you fix this?
+
+A: Violates ISP → clients should not implement methods they don’t need.
+👉 Fix: Split interfaces:
+
+Workable → work().
+
+Eatable → eat().
+
+Human implements both, Robot only Workable.
+
+########################################################################################################################
+5. Dependency Inversion Principle (DIP)
+
+Q: Your UserService class depends directly on MySQLDatabase. Later, you need to support MongoDB. How do you fix this?
+
+A: Violates DIP → high-level module depends on a low-level module.
+👉 Fix: Introduce abstraction:
+
+Create Database interface.
+
+Implement MySQLDatabase, MongoDatabase.
+
+UserService depends on Database, injected via constructor.
+
+This decouples service from DB implementation.
+
+🔹 Advanced, Scenario-Based (Good for 5+ YOE)
+
+########################################################################################################################
+6. SRP + OCP
+
+Q: You need to design a reporting system that can generate reports in PDF, Excel, and CSV. Tomorrow, a new format may come. How do you design it?
+
+A:
+
+SRP → Separate report generation logic, file export logic, and data fetching.
+
+OCP → Use Factory / Strategy for report formats → add new format without touching core logic.
+
+########################################################################################################################
+7. LSP + ISP
+
+Q: You’re designing an employee system with FullTimeEmployee, Intern, and Contractor. Some employees get insurance benefits, but not all. How do you avoid breaking LSP/ISP?
+
+A:
+
+Don’t put getInsurance() in base Employee.
+
+Split into interfaces: Workable, Insurable.
+
+Only classes eligible for insurance implement Insurable.
+
+This avoids forcing all subclasses to implement irrelevant methods.
+
+########################################################################################################################
+8. DIP in Microservices
+
+Q: You’re building a notification service that can send via Email, SMS, or Push. Tomorrow, a new channel (WhatsApp) may be added. How do you design it?
+
+A:
+
+NotificationService depends on NotificationChannel interface (DIP).
+
+Implement EmailNotification, SmsNotification, PushNotification, etc.
+
+Inject dependency (via DI framework like Spring).
+
+This allows extension without modifying the service.
+
+########################################################################################################################
+9. Combination of SOLID
+
+Q: You’re designing an e-commerce checkout system. Which SOLID principles will you apply?
+
+A:
+
+SRP → Split Order handling, Payment, Invoice, Notification.
+
+OCP → Add new payment or discount rules without changing core.
+
+LSP → Ensure all payment methods behave consistently (e.g., don’t break if PayPal doesn’t support some feature).
+
+ISP → Don’t force all gateways to implement unused methods.
+
+DIP → CheckoutService depends on PaymentGateway abstraction, not a specific provider.
+
+########################################################################################################################
+10. Trick Interview Question
+
+Q: Can you give a real-world violation of SOLID you’ve seen in projects?
+
+A: (Sample Answer)
+
+I once saw a UserManager class that did login, session handling, DB save, email notifications → violated SRP.
+
+Another case, we had if-else chains for multiple payment methods instead of abstraction → violated OCP.
+
+We fixed them using SRP + Strategy Pattern + Dependency Injection.
+
+########################################################################################################################
+
+
+
+
+

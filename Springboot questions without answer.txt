@@ -1,0 +1,94 @@
+1.What is Spring Boot and why is it used?
+2.What are the main features of Spring Boot?
+3.What is Spring Boot Auto-Configuration and how does it work?4
+4.What is the difference between Spring and Spring Boot?
+5.What is @SpringBootApplication Annotation?
+6.How does Spring Boot handle dependency management?
+7.What are Spring Boot DevTools?
+8.How do you configure properties in Spring Boot?
+9.What is the difference between application.properties and application.yml?
+10.what are profiles?
+11.How do you implement exception handling in Spring Boot?
+12.How does Spring Boot support logging?
+13.What is the default server in Spring Boot? Can it be changed?
+14.How do you create a custom banner in Spring Boot?
+15.What are Spring Boot Initializr and CLI?
+16.How do you enable scheduling in Spring Boot?
+17.What is the difference between @Component, @Service, @Repository, and @Controller?
+18.How does Spring Boot support JPA and Hibernate?
+19.How do you configure a DataSource in Spring Boot?	
+20.What is HikariCP in Spring Boot?
+21.What is Spring Boot Actuator Metrics and Monitoring?
+22.How do you secure Spring Boot Actuator endpoints?
+23.How do you implement caching in Spring Boot?
+24.What happens if two beans of the same type exist in the Spring context, and you do not use @Qualifier?
+25.Do you want me to also explain how Spring decides which bean name to use by default (when you don’t provide a name explicitly)?
+26.What is Spring Boot’s support for REST APIs?
+27.What is the difference between @RestController and @Controller?
+28.How do you handle file uploads in Spring Boot?
+29.What are Spring Boot Conditional Annotations?
+30.How does Spring Boot manage internationalization (i18n)?
+31.What is the use of spring-boot-starter-parent?
+32.How do you implement asynchronous execution in Spring Boot?
+33.What is the use of CommandLineRunner in Spring Boot?
+34.What is the difference between CommandLineRunner and ApplicationRunner?
+35.How does Spring Boot handle externalized configuration?
+36.How do you create a custom Spring Boot starter?
+37.What is the difference between JAR and WAR in Spring Boot?
+38.How do you enable HTTPS in Spring Boot?
+39.What are some ways to improve Spring Boot application performance?
+40.How do you externalize sensitive credentials in Spring Boot?
+41.How do you override default Spring Boot configurations?
+42.How do you disable specific auto-configuration in Spring Boot?
+43.How do you use Lombok in Spring Boot?
+44.How do you enable lazy initialization in Spring Boot?
+45.What are the different logging levels supported in Spring Boot?
+46.How do you package and deploy a Spring Boot application?
+47.what is dependency injection?
+48.What is IOC Container?
+49.How to Start IoC in Spring ?
+50.What is Bean Scope?
+51.What is Autowiring?
+52 How run() method work internally?
+53.How does @Transactional work under the hood?
+54.Explain the internal work of springboot?
+55.Architecture of Springboot?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

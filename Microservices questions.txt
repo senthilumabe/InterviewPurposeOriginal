@@ -1,0 +1,587 @@
+What are Microservices?
+==========================================
+Microservices is an architectural style where an application is broken into small, independent services that communicate over APIs.
+
+Each service focuses on a single business capability.
+
+Services are loosely coupled and independently deployable.
+
+Communication is typically via REST, gRPC, or messaging systems.
+
+#########################################################################################################################
+
+What are the benefits of Microservices?
+==========================================
+
+Scalability → Scale individual services independently.
+
+Flexibility → Use different technologies for different services.
+
+Faster development → Teams can work in parallel.
+
+Resilience → Failure in one service doesn’t crash the whole system.
+
+Continuous delivery → Independent deployments.
+
+#########################################################################################################################
+
+What are the challenges of Microservices?
+==========================================
+
+Complexity in design and deployment.
+
+Data consistency across services.
+
+Distributed transactions are difficult.
+
+Monitoring and debugging are harder.
+
+Inter-service communication latency.
+
+#########################################################################################################################
+
+What is the difference between Monolithic and Microservices architecture?
+==========================================
+
+Monolithic → Single deployable unit, tightly coupled.
+
+Microservices → Independent services, loosely coupled.
+
+Feature	Monolithic	Microservices
+Deployment	Single unit	Independent
+Scalability	Scale whole app	Scale per service
+Technology Stack	Single	Polyglot
+Fault tolerance	Low	High
+
+#########################################################################################################################
+
+What is Domain-Driven Design (DDD) in Microservices?
+==========================================
+DDD is an approach that models services around business domains.
+
+Each service represents a bounded context.
+
+Encourages alignment between business needs and service boundaries.
+
+Helps avoid tightly coupled services.
+
+#########################################################################################################################
+
+What is Service Discovery in Microservices?
+==========================================
+Service Discovery helps services find each other dynamically.
+
+Used when services run on multiple hosts/containers.
+
+Examples:
+
+Netflix Eureka.
+
+Consul.
+
+Zookeeper.
+
+#########################################################################################################################
+
+What is an API Gateway in Microservices?
+==========================================
+API Gateway acts as a single entry point for clients.
+
+Handles routing, authentication, rate limiting, load balancing.
+
+Examples: Netflix Zuul, Spring Cloud Gateway, Kong.
+
+Benefits: security, centralized logging, request aggregation.
+
+#########################################################################################################################
+
+How do microservices communicate with each other?
+==========================================
+
+Synchronous → REST, gRPC.
+
+Asynchronous → Messaging (Kafka, RabbitMQ).
+
+Choice depends on latency and reliability requirements.
+
+#########################################################################################################################
+
+What is load balancing in Microservices?
+==========================================
+Distributes traffic across multiple instances of a service.
+
+Client-side load balancing → Ribbon, Feign.
+
+Server-side load balancing → Nginx, HAProxy, Kubernetes services.
+
+#########################################################################################################################
+
+What is Circuit Breaker in Microservices?
+==========================================
+A pattern to prevent cascading failures.
+
+If a service fails repeatedly → breaker "opens".
+
+Requests are not sent until recovery.
+
+Tools: Netflix Hystrix, Resilience4j.
+
+#########################################################################################################################
+
+What is API Composition in Microservices?
+==========================================
+
+Combines data from multiple services into a single response.
+
+Done by API Gateway or Aggregator service.
+
+Useful when a client needs data from multiple services.
+
+#########################################################################################################################
+
+What is Event-Driven Architecture in Microservices?
+==========================================
+
+Services communicate via events.
+
+Loose coupling and asynchronous processing.
+
+Tools: Kafka, RabbitMQ, AWS SNS/SQS.
+
+#########################################################################################################################
+
+What is CQRS in Microservices?
+==========================================
+CQRS → Command Query Responsibility Segregation.
+
+Separates read operations (queries) from write operations (commands).
+
+Improves scalability and performance.
+
+Often used with event sourcing.
+
+#########################################################################################################################
+
+What is Event Sourcing in Microservices?
+==========================================
+Instead of storing just current state, all changes are stored as events.
+
+Reconstructs state from event history.
+
+Works well with audit logs and CQRS.
+
+#########################################################################################################################
+
+How do you ensure data consistency in Microservices?
+==========================================
+
+Sagas pattern → Distributed transactions handled via events.
+
+Eventual consistency → Updates propagate asynchronously.
+
+Use compensating transactions to undo failed steps.
+
+#########################################################################################################################
+
+What is Saga Pattern?
+==========================================
+A design pattern to handle distributed transactions.
+
+Two types:
+
+Choreography → Events trigger next step.
+
+Orchestration → Central coordinator manages steps.
+
+#########################################################################################################################
+
+What is a Sidecar pattern in Microservices?
+==========================================
+Sidecar runs alongside a service to provide infrastructure features.
+
+Example: Service mesh proxies like Envoy.
+
+Handles logging, monitoring, security without modifying main service.
+
+#########################################################################################################################
+
+What is Service Mesh in Microservices?
+==========================================
+A dedicated infrastructure layer for managing service-to-service communication.
+
+Provides: traffic routing, observability, security.
+
+Examples: Istio, Linkerd.
+
+#########################################################################################################################
+
+How do you secure Microservices?
+==========================================
+
+Use OAuth2/JWT for authentication.
+
+Secure communication with HTTPS/TLS.
+
+Apply API Gateway for centralized security.
+
+Implement role-based access control (RBAC).
+
+#########################################################################################################################
+
+What is OAuth2 in Microservices?
+==========================================
+OAuth2 is an authorization framework.
+
+Allows secure delegated access using access tokens.
+
+Widely used in microservices for securing APIs.
+
+Often combined with OpenID Connect.
+
+#########################################################################################################################
+
+What is JWT in Microservices?
+==========================================
+JWT (JSON Web Token) is a stateless authentication mechanism.
+
+Stored at client-side.
+
+Contains user info and claims.
+
+Eliminates need for server-side sessions.
+
+#########################################################################################################################
+
+What is centralized logging in Microservices?
+==========================================
+
+Collect logs from multiple services in one place.
+
+Tools: ELK Stack (Elasticsearch, Logstash, Kibana), Splunk, Grafana Loki.
+
+Helps debugging distributed systems.
+
+#########################################################################################################################
+
+What is distributed tracing in Microservices?
+==========================================
+Tracks a request across multiple services.
+
+Helps identify bottlenecks and failures.
+
+Tools: Zipkin, Jaeger, OpenTelemetry.
+
+#########################################################################################################################
+
+What is containerization in Microservices?
+==========================================
+Packaging services into containers (Docker).
+
+Ensures consistency across environments.
+
+Makes deployment easier.
+
+Used with Kubernetes for orchestration.
+
+#########################################################################################################################
+
+What is Kubernetes and why is it used in Microservices?
+==========================================
+Kubernetes is a container orchestration platform.
+
+Manages scaling, load balancing, and deployment.
+
+Provides service discovery, auto-healing, rolling updates.
+
+Ideal for microservices architecture.
+
+#########################################################################################################################
+
+What is service orchestration vs choreography?
+==========================================
+
+Orchestration → Central controller manages flow.
+
+Choreography → Services react to events independently.
+
+#########################################################################################################################
+
+What is API Versioning in Microservices?
+==========================================
+
+Needed for backward compatibility.
+
+Strategies:
+
+URI versioning → /api/v1/users.
+
+Header-based versioning.
+
+Query parameter versioning.
+
+#########################################################################################################################
+
+What is Blue-Green Deployment in Microservices?
+==========================================
+Deployment strategy with two environments:
+
+Blue → Current version.
+
+Green → New version.
+
+Switch traffic to green when stable.
+
+#########################################################################################################################
+
+What is Canary Deployment in Microservices?
+==========================================
+Deploy new version to a small subset of users.
+
+If successful → gradually roll out.
+
+Reduces risk of full rollout failure.
+
+#########################################################################################################################
+
+What is Chaos Engineering in Microservices?
+==========================================
+Practice of intentionally breaking services to test resilience.
+
+Example: Netflix Chaos Monkey.
+
+Helps identify weak points in the system.
+
+#########################################################################################################################
+
+What is Polyglot Persistence in Microservices?
+==========================================
+Using different databases for different services.
+
+Example:
+
+Orders service → MySQL.
+
+Search service → Elasticsearch.
+
+Payments service → MongoDB.
+
+#########################################################################################################################
+
+How do you handle inter-service communication failures?
+==========================================
+
+Use Circuit Breakers.
+
+Implement Retries with exponential backoff.
+
+Use Fallback methods.
+
+Use asynchronous messaging.
+
+#########################################################################################################################
+
+What is eventual consistency in Microservices?
+==========================================
+
+Data may not be immediately consistent across services.
+
+Eventually becomes consistent after updates propagate.
+
+Common in distributed databases and event-driven systems.
+
+#########################################################################################################################
+
+What is API Rate Limiting in Microservices?
+==========================================
+Restricts the number of requests a client can make.
+
+Protects services from abuse.
+
+Implemented at API Gateway.
+
+Tools: Kong, NGINX, Spring Cloud Gateway.
+
+#########################################################################################################################
+
+What is Fault Tolerance in Microservices?
+==========================================
+Ability of a system to continue working despite failures.
+
+Achieved using:
+
+Circuit breakers.
+
+Bulkhead pattern.
+
+Failover mechanisms.
+
+#########################################################################################################################
+
+What is Bulkhead Pattern in Microservices?
+==========================================
+
+Isolates service failures by partitioning resources.
+
+Prevents one service from exhausting resources of others.
+
+#########################################################################################################################
+
+What is API Gateway vs Load Balancer?
+==========================================
+
+API Gateway → Handles authentication, routing, monitoring.
+
+Load Balancer → Distributes traffic among instances.
+
+#########################################################################################################################
+
+What is Service Registry in Microservices?
+==========================================
+A database where all service instances register.
+
+Clients query registry to find service instances.
+
+Examples: Eureka, Consul, Zookeeper.
+
+#########################################################################################################################
+
+How do you test Microservices?
+==========================================
+
+Unit testing → JUnit, Mockito.
+
+Integration testing → TestContainers, WireMock.
+
+Contract testing → Pact.
+
+End-to-End testing → Selenium, Postman.
+
+#########################################################################################################################
+
+What is Consumer-Driven Contract Testing?
+==========================================
+
+Consumers define API expectations.
+
+Providers implement and test against those contracts.
+
+Tools: Pact.
+
+#########################################################################################################################
+
+What is Backend-for-Frontend (BFF) pattern?
+==========================================
+
+Separate backend for each frontend (web, mobile).
+
+Avoids one-size-fits-all APIs.
+
+Improves performance and developer experience.
+
+#########################################################################################################################
+
+What is distributed caching in Microservices?
+==========================================
+
+Cache shared across multiple instances.
+
+Tools: Redis, Hazelcast, Memcached.
+
+Reduces database load.
+
+#########################################################################################################################
+
+What is gRPC and why is it used in Microservices?
+==========================================
+
+gRPC is a high-performance RPC framework by Google.
+
+Uses Protocol Buffers (protobuf) for serialization.
+
+Faster than REST for internal service communication.
+
+#########################################################################################################################
+
+What is Fallback in Microservices?
+==========================================
+Provides an alternative response when a service fails.
+
+Example: If payment service is down → return cached response.
+
+Implemented with Resilience4j / Hystrix.
+
+#########################################################################################################################
+
+How do you handle security in inter-service communication?
+==========================================
+
+Use mutual TLS (mTLS).
+
+Use service identity tokens (JWT).
+
+Secure API Gateway.
+
+#########################################################################################################################
+
+What is OpenAPI/Swagger in Microservices?
+==========================================
+
+API documentation and design tool.
+
+Provides interactive API UI.
+
+Supports contract-first development.
+
+#########################################################################################################################
+
+What is Reactive Microservices?
+==========================================
+
+Built using Reactive Programming (non-blocking, event-driven).
+
+Tools: Spring WebFlux, Akka, Vert.x.
+
+Provides better scalability and performance.
+
+#########################################################################################################################
+
+What is Zero-Downtime Deployment in Microservices?
+==========================================
+Deploy new versions without service interruption.
+
+Strategies: Blue-Green, Canary, Rolling Updates.
+
+#########################################################################################################################
+
+What is Observability in Microservices?
+==========================================
+Ability to understand system state using:
+
+Logs.
+
+Metrics.
+
+Tracing.
+
+Tools: Prometheus, Grafana, Zipkin.
+
+#########################################################################################################################
+
+What are best practices for Microservices?
+==========================================
+
+Design services around business capabilities.
+
+Keep services small and loosely coupled.
+
+Use API Gateway for routing/security.
+
+Implement centralized monitoring & logging.
+
+Use circuit breakers, retries, fallback.
+
+Secure with OAuth2/JWT.
+
+Automate deployments with CI/CD pipelines.
+
+#########################################################################################################################
